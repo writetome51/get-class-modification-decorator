@@ -19,10 +19,9 @@ function getClassModificationDecorator(modifyInstance) {
                 modifyInstance(instance, decoratorArgs);
                 return instance;
             };
-            // copy prototype so `instanceof` operator still works
             // @ts-ignore
             f.prototype = original.prototype;
-            // return new constructor (will override original)
+            // return new constructor
             return f;
             // a utility function to generate instances of a class
             function construct(constructor, args) {

@@ -1,7 +1,7 @@
 import { getClassModificationDecorator } from './index';
 
 
-export const attach_prefix = getClassModificationDecorator<Employee>(
+export const attach_prefix = getClassModificationDecorator<Associate>(
 	(instance, decoratorArgs: [string]) => {
 		let prefix = decoratorArgs[0];
 		instance.name = prefix + ' ' + instance.name;
@@ -9,13 +9,14 @@ export const attach_prefix = getClassModificationDecorator<Employee>(
 );
 
 
-@attach_prefix('subordinate')
-export class Employee {
-	name = 'employee';
+export class Associate {
+	name = 'associate';
 }
 
 
+@attach_prefix('subordinate')
+export class Employee extends Associate {
+}
+
 let subordinate = new Employee();
-console.log(subordinate.name); // 'subordinate employee'
-//
-//
+console.log(subordinate.name); // 'subordinate associate'

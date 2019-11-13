@@ -1,7 +1,8 @@
 /*********************
 Returns a TypeScript class decorator.
-param `modifyInstance()` is called inside the constructor of the class being decorated,
-allowing you to change its behavior.
+ The decorator creates a new constructor for the class being decorated.
+ Inside it, the original constructor is called, then the class instance is passed
+ into param `modifyInstance()`, where you manipulate it however you want.
 EXAMPLE:
 
 // Create a decorator:
@@ -39,11 +40,10 @@ export function getClassModificationDecorator<T>(
 				return instance;
 			};
 
-			// copy prototype so `instanceof` operator still works
 			// @ts-ignore
 			f.prototype = original.prototype;
 
-			// return new constructor (will override original)
+			// return new constructor
 			return f;
 
 
