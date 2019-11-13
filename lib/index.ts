@@ -21,15 +21,13 @@ export class Employee {
 let subordinate = new Employee();
 console.log(subordinate.name); // 'subordinate employee'
  *********************/
-import { Class } from './class-type';
 
 
-export function getClassModificationDecorator<T>(
-	modifyInstance: (instance: T, decoratorArgs: any[]) => void
-): (...decoratorArgs: any[]) => (target: Class<T>) => Class<T> {
-
+export function getClassModificationDecorator(
+	modifyInstance: (instance, decoratorArgs: any[]) => void
+) {
 	return function (...decoratorArgs) {
-		return function (target: Class<T>) {
+		return function (target) {
 			// save a reference to the original constructor
 			const original = target;
 

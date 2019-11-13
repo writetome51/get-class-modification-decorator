@@ -20,6 +20,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
+var modify_object_1 = require("@writetome51/modify-object");
 exports.attach_prefix = index_1.getClassModificationDecorator(function (instance, decoratorArgs) {
     var prefix = decoratorArgs[0];
     instance.name = prefix + ' ' + instance.name;
@@ -37,10 +38,41 @@ var Employee = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Employee = __decorate([
-        exports.attach_prefix('subordinate')
+        exports.attach_prefix('snobby')
     ], Employee);
     return Employee;
 }(Associate));
 exports.Employee = Employee;
 var subordinate = new Employee();
-console.log(subordinate.name); // 'subordinate associate'
+console.log(subordinate);
+exports.add_properties = index_1.getClassModificationDecorator(function (instance, decoratorArgs) {
+    var newProperties = decoratorArgs[0];
+    modify_object_1.modifyObject(instance, newProperties);
+});
+var Boss = /** @class */ (function (_super) {
+    __extends(Boss, _super);
+    function Boss() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.address = '400 Jones road';
+        return _this;
+    }
+    Boss = __decorate([
+        exports.add_properties({ hair: 'amazing', age: 50, income: 200000, wife: 'hot' })
+    ], Boss);
+    return Boss;
+}(Employee));
+exports.Boss = Boss;
+var boss = new Boss();
+console.log(boss);
+//@add_properties({address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive'})
+var CEO = /** @class */ (function (_super) {
+    __extends(CEO, _super);
+    function CEO() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return CEO;
+}(Boss));
+exports.CEO = CEO;
+var ceo = new CEO();
+console.log(ceo);
+console.log(ceo instanceof Boss);

@@ -29,6 +29,29 @@ export class Employee extends Associate {
 
 let employee = new Employee();
 console.log(employee.name); // 'snobby associate'
+
+
+export const add_properties = getClassModificationDecorator<Associate>(
+	(instance, decoratorArgs: [object]) => {
+		let newProperties = decoratorArgs[0];
+		modifyObject(instance, newProperties);
+	}
+);
+
+@add_properties({hair: 'amazing', age: 50, income: 200000, wife: 'hot'})
+export class Boss extends Associate {
+}
+
+let boss = new Boss();
+console.log(boss);
+/*************
+Boss {
+  name: 'associate',
+  hair: 'amazing',
+  age: 50,
+  income: 200000,
+  wife: 'hot' }
+**************/
 ```
 
 ## Installation

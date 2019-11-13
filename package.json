@@ -26,5 +26,6 @@
   },
   "homepage": "https://github.com/writetome51/get-class-modification-decorator#readme",
   "dependencies": {
+    "@writetome51/modify-object": "^1.0.0"
   }
 }
