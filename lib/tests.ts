@@ -12,6 +12,9 @@ export const attach_prefix: (arg) => Function = getClassModificationDecorator(
 
 export class Associate {
 	name = 'associate';
+	constructor(){
+		this.name = 'worker';
+	}
 }
 
 
@@ -20,8 +23,8 @@ export class Employee extends Associate {
 }
 
 console.log('instantiating Employee');
-let subordinate = new Employee();
-console.log(subordinate);
+let employee = new Employee();
+//console.log(employee);
 
 export const add_properties = getClassModificationDecorator(
 	(instance, decoratorArgs: [object]) => {
@@ -38,17 +41,28 @@ export class Boss extends Employee {
 
 console.log('instantiating Boss');
 let boss = new Boss();
-console.log(boss);
+//console.log(boss);
 
 
+// the constructor is called once for every decorator added, so here
+// it will be called twice:
 @attach_prefix('angry')
-@add_properties({address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive'})
+@add_properties({ age: 60, income: 600000, wife: 'radioactive'})
 export class CEO extends Boss {
 }
 
 console.log('instantiating CEO');
 let ceo = new CEO();
 
-console.log(ceo);
-
+//console.log(ceo);
 console.log(ceo instanceof Associate);
+console.log(ceo instanceof CEO);
+
+@attach_prefix('greedy')
+export class Mogul extends CEO {
+}
+
+console.log('instantiating Mogul');
+let mogul = new Mogul();
+console.log(mogul instanceof CEO);
+console.log(mogul);

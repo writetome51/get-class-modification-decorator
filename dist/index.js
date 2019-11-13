@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /*********************
 Returns a TypeScript class decorator.
  The decorator creates a new constructor for the class being decorated.
@@ -7,7 +8,7 @@ Returns a TypeScript class decorator.
 EXAMPLE:
 
 // Create a decorator:
-export const attach_prefix = getClassModificationDecorator<Employee>(
+export const attach_prefix = getClassModificationDecorator(
     (instance, decoratorArgs: [string]) => {
         let prefix = decoratorArgs[0];
         instance.name = prefix + ' ' + instance.name;
@@ -22,7 +23,7 @@ export class Employee {
 let subordinate = new Employee();
 console.log(subordinate.name); // 'subordinate employee'
  *********************/
-Object.defineProperty(exports, "__esModule", { value: true });
+var modify_object_1 = require("@writetome51/modify-object");
 function getClassModificationDecorator(modifyInstance) {
     return function () {
         var decoratorArgs = [];
@@ -31,21 +32,22 @@ function getClassModificationDecorator(modifyInstance) {
         }
         return function (target) {
             // save a reference to the original constructor
-            var original = target;
+            var originalConstructor = target;
             // the new constructor behaviour
             var f = function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
-                var instance = construct(original, args);
+                var instance = construct(originalConstructor, args);
                 modifyInstance(instance, decoratorArgs);
-                // Without this, it won't know its immediate parent
-                instance.__proto__ = original.prototype;
-                return instance;
+                // Required so the returned instance's prototype will be its immediate parent.
+                var instanceCopy = Object.create(originalConstructor.prototype);
+                modify_object_1.modifyObject(instanceCopy, instance);
+                return instanceCopy;
             };
-            // Without this, it won't know its most distant parent
-            f.prototype = original.prototype;
+            // Required so the 'instanceof' operator will work:
+            f.prototype = originalConstructor.prototype;
             // return new constructor
             return f;
             // a utility function to generate instances of a class

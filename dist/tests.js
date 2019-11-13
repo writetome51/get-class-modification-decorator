@@ -28,6 +28,7 @@ exports.attach_prefix = index_1.getClassModificationDecorator(function (instance
 var Associate = /** @class */ (function () {
     function Associate() {
         this.name = 'associate';
+        this.name = 'worker';
     }
     return Associate;
 }());
@@ -44,8 +45,8 @@ var Employee = /** @class */ (function (_super) {
 }(Associate));
 exports.Employee = Employee;
 console.log('instantiating Employee');
-var subordinate = new Employee();
-console.log(subordinate);
+var employee = new Employee();
+//console.log(employee);
 exports.add_properties = index_1.getClassModificationDecorator(function (instance, decoratorArgs) {
     var newProperties = decoratorArgs[0];
     modify_object_1.modifyObject(instance, newProperties);
@@ -65,7 +66,9 @@ var Boss = /** @class */ (function (_super) {
 exports.Boss = Boss;
 console.log('instantiating Boss');
 var boss = new Boss();
-console.log(boss);
+//console.log(boss);
+// the constructor is called once for every decorator added, so here
+// it will be called twice:
 var CEO = /** @class */ (function (_super) {
     __extends(CEO, _super);
     function CEO() {
@@ -73,12 +76,28 @@ var CEO = /** @class */ (function (_super) {
     }
     CEO = __decorate([
         exports.attach_prefix('angry'),
-        exports.add_properties({ address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive' })
+        exports.add_properties({ age: 60, income: 600000, wife: 'radioactive' })
     ], CEO);
     return CEO;
 }(Boss));
 exports.CEO = CEO;
 console.log('instantiating CEO');
 var ceo = new CEO();
-console.log(ceo);
+//console.log(ceo);
 console.log(ceo instanceof Associate);
+console.log(ceo instanceof CEO);
+var Mogul = /** @class */ (function (_super) {
+    __extends(Mogul, _super);
+    function Mogul() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Mogul = __decorate([
+        exports.attach_prefix('greedy')
+    ], Mogul);
+    return Mogul;
+}(CEO));
+exports.Mogul = Mogul;
+console.log('instantiating Mogul');
+var mogul = new Mogul();
+console.log(mogul instanceof CEO);
+console.log(mogul);

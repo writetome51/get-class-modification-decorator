@@ -1,10 +1,11 @@
-# getClassModificationDecorator(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifyInstance: (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance: T, decoratorArgs: any[]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) => void<br>) : @Decorator
+# getClassModificationDecorator(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifyInstance: (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance, decoratorArgs: any[]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) => void<br>) : @Decorator
 
 Returns a TypeScript class decorator. You set the behavior of the decorator  
 by passing the callback `modifyInstance()`. The decorator creates a new  
 constructor for the class being decorated.  The new constructor first calls  
 the original constructor, then the class instance is passed into `modifyInstance()`,  
-where you manipulate it however you want.
+where you manipulate it however you want.  (The prototype chain is kept intact,  
+and the `instanceof` operator will still work.)
 
 
 ## Examples

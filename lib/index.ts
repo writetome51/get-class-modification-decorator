@@ -6,7 +6,7 @@ Returns a TypeScript class decorator.
 EXAMPLE:
 
 // Create a decorator:
-export const attach_prefix = getClassModificationDecorator<Employee>(
+export const attach_prefix = getClassModificationDecorator(
  	(instance, decoratorArgs: [string]) => {
 		let prefix = decoratorArgs[0];
 		instance.name = prefix + ' ' + instance.name;
@@ -21,6 +21,7 @@ export class Employee {
 let subordinate = new Employee();
 console.log(subordinate.name); // 'subordinate employee'
  *********************/
+import { modifyObject } from '@writetome51/modify-object';
 
 
 export function getClassModificationDecorator(
@@ -29,20 +30,22 @@ export function getClassModificationDecorator(
 	return function (...decoratorArgs) {
 		return function (target) {
 			// save a reference to the original constructor
-			const original = target;
+			let originalConstructor = target;
 
 			// the new constructor behaviour
 			const f: any = function (...args) {
-				let instance = construct(original, args);
+				let instance = construct(originalConstructor, args);
 				modifyInstance(instance, decoratorArgs);
 
-				// Without this, it won't know its immediate parent
-				instance.__proto__ = original.prototype;
-				return instance;
+				// Required so the returned instance's prototype will be its immediate parent.
+				let instanceCopy = Object.create(originalConstructor.prototype);
+				modifyObject(instanceCopy, instance);
+
+				return instanceCopy;
 			};
 
-			// Without this, it won't know its most distant parent
-			f.prototype = original.prototype;
+			// Required so the 'instanceof' operator will work:
+			f.prototype = originalConstructor.prototype;
 
 			// return new constructor
 			return f;
