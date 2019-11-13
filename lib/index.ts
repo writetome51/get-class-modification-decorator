@@ -20,13 +20,15 @@ export class Employee {
 let subordinate = new Employee();
 console.log(subordinate.name); // 'subordinate employee'
  *********************/
+import { Class } from './class-type';
+
 
 export function getClassModificationDecorator<T>(
-	modifyInstance: (instance: { new(): T; }, decoratorArgs: any[]) => void
-): (...decoratorArgs: any[]) => (target: T) => T {
+	modifyInstance: (instance: T, decoratorArgs: any[]) => void
+): (...decoratorArgs: any[]) => (target: Class<T>) => Class<T> {
 
 	return function (...decoratorArgs) {
-		return function (target: T) {
+		return function (target: Class<T>) {
 			// save a reference to the original constructor
 			const original = target;
 
@@ -57,22 +59,3 @@ export function getClassModificationDecorator<T>(
 		};
 	};
 }
-
-
-//
-export const attach_prefix = getClassModificationDecorator<Employee>(
-	(instance, decoratorArgs: [string]) => {
-		let prefix = decoratorArgs[0];
-		instance.name = prefix + ' ' + instance.name;
-	}
-);
-
-
-@attach_prefix('subordinate')
-export class Employee {
-	name = 'employee';
-}
-
-
-let subordinate = new Employee();
-console.log(subordinate.name); // 'subordinate employee'

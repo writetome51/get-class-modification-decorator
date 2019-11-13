@@ -21,6 +21,9 @@ let subordinate = new Employee();
 console.log(subordinate.name); // 'subordinate employee'
  *********************/
 
+import { Class } from './class-type';
+
+
 export declare function getClassModificationDecorator<T>(
 	modifyInstance: (instance: T, decoratorArgs: any[]) => void
-): (...decoratorArgs: any[]) => (target: T) => T;
+): (...decoratorArgs: any[]) => (target: Class<T>) => Class<T>;
