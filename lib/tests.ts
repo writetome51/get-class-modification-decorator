@@ -41,6 +41,7 @@ let boss = new Boss();
 console.log(boss);
 
 
+@attach_prefix('angry')
 @add_properties({address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive'})
 export class CEO extends Boss {
 }
@@ -50,4 +51,4 @@ let ceo = new CEO();
 
 console.log(ceo);
 
-console.log(ceo instanceof CEO);
+console.log(ceo instanceof Associate);

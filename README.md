@@ -1,4 +1,4 @@
-# getClassModificationDecorator&lt;T&gt; (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifyInstance: (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance: T, decoratorArgs: any[]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) => void<br>) : @Decorator
+# getClassModificationDecorator(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifyInstance: (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance: T, decoratorArgs: any[]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) => void<br>) : @Decorator
 
 Returns a TypeScript class decorator. You set the behavior of the decorator  
 by passing the callback `modifyInstance()`. The decorator creates a new  
@@ -12,7 +12,7 @@ where you manipulate it however you want.
 ```ts
 // Create a decorator:
 
-export const attach_prefix = getClassModificationDecorator<Associate>(
+export const attach_prefix = getClassModificationDecorator(
     (instance, decoratorArgs: [string]) => {
         let prefix = decoratorArgs[0];
         instance.name = prefix + ' ' + instance.name;
@@ -23,34 +23,58 @@ export class Associate {
     name = 'associate';
 }
 
-@attach_prefix('snobby')
-export class Employee extends Associate {
-}
+// Now decorate a class:
 
+@attach_prefix('snobby')
+export class Employee extends Associate{
+}
 let employee = new Employee();
 console.log(employee.name); // 'snobby associate'
 
 
-export const add_properties = getClassModificationDecorator<Associate>(
-	(instance, decoratorArgs: [object]) => {
-		let newProperties = decoratorArgs[0];
-		modifyObject(instance, newProperties);
-	}
+// Here we make a decorator that adds properties:
+
+export const add_properties = getClassModificationDecorator(
+    (instance, decoratorArgs: [object]) => {
+        let newProperties = decoratorArgs[0];
+        mergeObject(instance, newProperties);
+    }
 );
 
-@add_properties({hair: 'amazing', age: 50, income: 200000, wife: 'hot'})
-export class Boss extends Associate {
-}
+// Now use it:
 
+@add_properties({hair: 'amazing', age: 50, income: 200000, wife: 'hot'})
+export class Boss extends Employee {
+}
 let boss = new Boss();
 console.log(boss);
 /*************
 Boss {
-  name: 'associate',
+  name: 'snobby associate',
   hair: 'amazing',
   age: 50,
   income: 200000,
   wife: 'hot' }
+**************/
+
+
+// Now combine decorators:
+
+@attach_prefix('angry')
+@add_properties({address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive'})
+export class CEO extends Boss {
+}
+let ceo = new CEO();
+console.log(ceo);
+/*************
+CEO {
+  name: 'angry snobby associate',
+  address: '100 fleet street',
+  hair: 'amazing',
+  age: 60,
+  income: 600000,
+  wife: 'radioactive' 
+}
 **************/
 ```
 

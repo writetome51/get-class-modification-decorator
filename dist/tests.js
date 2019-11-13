@@ -72,6 +72,7 @@ var CEO = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CEO = __decorate([
+        exports.attach_prefix('angry'),
         exports.add_properties({ address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive' })
     ], CEO);
     return CEO;
@@ -80,4 +81,4 @@ exports.CEO = CEO;
 console.log('instantiating CEO');
 var ceo = new CEO();
 console.log(ceo);
-console.log(ceo instanceof CEO);
+console.log(ceo instanceof Associate);

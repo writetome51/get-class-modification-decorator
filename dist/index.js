@@ -45,7 +45,6 @@ function getClassModificationDecorator(modifyInstance) {
                 return instance;
             };
             // Without this, it won't know its most distant parent
-            // @ts-ignore
             f.prototype = original.prototype;
             // return new constructor
             return f;
