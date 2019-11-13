@@ -29,6 +29,7 @@ export class Associate {
 @attach_prefix('snobby')
 export class Employee extends Associate{
 }
+
 let employee = new Employee();
 console.log(employee.name); // 'snobby associate'
 
@@ -47,6 +48,7 @@ export const add_properties = getClassModificationDecorator(
 @add_properties({hair: 'amazing', age: 50, income: 200000, wife: 'hot'})
 export class Boss extends Employee {
 }
+
 let boss = new Boss();
 console.log(boss);
 /*************
@@ -65,6 +67,7 @@ Boss {
 @add_properties({address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive'})
 export class CEO extends Boss {
 }
+
 let ceo = new CEO();
 console.log(ceo);
 /*************
@@ -77,6 +80,10 @@ CEO {
   wife: 'radioactive' 
 }
 **************/
+
+// Remember when combining decorators:  the class constructor is called once
+// for every decorator attached to the class.  So in the above example it 
+// will be called twice.
 ```
 
 ## Installation
