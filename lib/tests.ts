@@ -19,7 +19,7 @@ export class Associate {
 export class Employee extends Associate {
 }
 
-
+console.log('instantiating Employee');
 let subordinate = new Employee();
 console.log(subordinate);
 
@@ -36,17 +36,18 @@ export class Boss extends Employee {
 	address = '400 Jones road'
 }
 
-
+console.log('instantiating Boss');
 let boss = new Boss();
 console.log(boss);
 
 
-//@add_properties({address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive'})
+@add_properties({address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive'})
 export class CEO extends Boss {
 }
 
-
+console.log('instantiating CEO');
 let ceo = new CEO();
+
 console.log(ceo);
 
-console.log(ceo instanceof Boss);
+console.log(ceo instanceof CEO);

@@ -40,8 +40,11 @@ function getClassModificationDecorator(modifyInstance) {
                 }
                 var instance = construct(original, args);
                 modifyInstance(instance, decoratorArgs);
+                // Without this, it won't know its immediate parent
+                instance.__proto__ = original.prototype;
                 return instance;
             };
+            // Without this, it won't know its most distant parent
             // @ts-ignore
             f.prototype = original.prototype;
             // return new constructor

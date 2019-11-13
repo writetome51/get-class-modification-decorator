@@ -43,6 +43,7 @@ var Employee = /** @class */ (function (_super) {
     return Employee;
 }(Associate));
 exports.Employee = Employee;
+console.log('instantiating Employee');
 var subordinate = new Employee();
 console.log(subordinate);
 exports.add_properties = index_1.getClassModificationDecorator(function (instance, decoratorArgs) {
@@ -62,17 +63,21 @@ var Boss = /** @class */ (function (_super) {
     return Boss;
 }(Employee));
 exports.Boss = Boss;
+console.log('instantiating Boss');
 var boss = new Boss();
 console.log(boss);
-//@add_properties({address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive'})
 var CEO = /** @class */ (function (_super) {
     __extends(CEO, _super);
     function CEO() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    CEO = __decorate([
+        exports.add_properties({ address: '100 fleet street', age: 60, income: 600000, wife: 'radioactive' })
+    ], CEO);
     return CEO;
 }(Boss));
 exports.CEO = CEO;
+console.log('instantiating CEO');
 var ceo = new CEO();
 console.log(ceo);
-console.log(ceo instanceof Boss);
+console.log(ceo instanceof CEO);
