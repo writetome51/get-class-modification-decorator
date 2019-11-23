@@ -1,4 +1,5 @@
 lib/
 dist/tests.js
+dist/tests.d.ts
 .idea/
 tsconfig.json

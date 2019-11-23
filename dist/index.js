@@ -56,7 +56,7 @@ function getClassModificationDecorator(modifyInstance) {
                     return constructor.apply(this, args);
                 };
                 c.prototype = constructor.prototype;
-                return new c();
+                return new (c.bind.apply(c, [void 0].concat(args)))();
             }
         };
     };

@@ -57,7 +57,8 @@ export function getClassModificationDecorator(
 					return constructor.apply(this, args);
 				};
 				c.prototype = constructor.prototype;
-				return new c();
+
+				return new c(...args);
 			}
 
 		};
