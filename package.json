@@ -1,6 +1,6 @@
 {
   "name": "@writetome51/get-class-modification-decorator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Returns a TypeScript class decorator. You pass in a callback to change the behavior of the class that will be decorated",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
