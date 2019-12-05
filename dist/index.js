@@ -53,7 +53,8 @@ function getClassModificationDecorator(modifyInstance) {
             // a utility function to generate instances of a class
             function construct(constructor, args) {
                 var c = function () {
-                    return constructor.apply(this, args);
+                    //	return constructor.apply(this, args);
+                    return new (constructor.bind.apply(constructor, [void 0].concat(args)))();
                 };
                 c.prototype = constructor.prototype;
                 return new (c.bind.apply(c, [void 0].concat(args)))();
