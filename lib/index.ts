@@ -1,5 +1,8 @@
+import { modifyObject } from '@writetome51/modify-object';
+
+
 /*********************
-Returns a TypeScript class decorator.
+Returns a TypeScript ClassDecorator factory.
  The decorator creates a new constructor for the class being decorated.
  Inside it, the original constructor is called, then the class instance is passed
  into param `modifyInstance()`, where you manipulate it however you want.
@@ -21,13 +24,12 @@ export class Employee {
 let subordinate = new Employee();
 console.log(subordinate.name); // 'subordinate employee'
  *********************/
-import { modifyObject } from '@writetome51/modify-object';
-
 
 export function getClassModificationDecorator(
-	modifyInstance: (instance, decoratorArgs: any[]) => void
-) {
-	return function (...decoratorArgs) {
+	modifyInstance: (instance: object, decoratorArgs: any[]) => void
+): (...decoratorArgs) => ClassDecorator {
+
+	return function (...decoratorArgs): ClassDecorator {
 		return function (target) {
 			// save a reference to the original constructor
 			let originalConstructor = target;
@@ -54,7 +56,7 @@ export function getClassModificationDecorator(
 			// a utility function to generate instances of a class
 			function construct(constructor, args) {
 				const c: any = function () {
-				//	return constructor.apply(this, args);
+					//	return constructor.apply(this, args);
 
 					return new constructor(...args);
 				};

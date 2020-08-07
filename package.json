@@ -1,7 +1,8 @@
 {
   "name": "@writetome51/get-class-modification-decorator",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Returns a TypeScript class decorator. You pass in a callback to change the behavior of the class that will be decorated",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -26,6 +27,6 @@
   },
   "homepage": "https://github.com/writetome51/get-class-modification-decorator#readme",
   "dependencies": {
-    "@writetome51/modify-object": "^1.0.1"
+    "@writetome51/modify-object": "^2.0.0"
   }
 }

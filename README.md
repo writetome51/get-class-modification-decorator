@@ -87,19 +87,12 @@ CEO {
 ```
 
 ## Installation
-
 ```bash
 npm i  @writetome51/get-class-modification-decorator
 ```
 
 ## Loading
-```ts
-// If using TypeScript:
+```js
 import {getClassModificationDecorator} 
     from '@writetome51/get-class-modification-decorator';
-
-// If using ES5 JavaScript:
-var getClassModificationDecorator = 
-    require('@writetome51/get-class-modification-decorator')
-        .getClassModificationDecorator;
 ```
