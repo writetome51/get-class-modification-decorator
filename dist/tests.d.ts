@@ -6,7 +6,7 @@ export declare class Associate {
 }
 export declare class Employee extends Associate {
 }
-export declare const add_properties: (...decoratorArgs: any[]) => (target: any) => any;
+export declare const add_properties: (...decoratorArgs: any[]) => ClassDecorator;
 export declare class Boss extends Employee {
     address: string;
 }

@@ -31,7 +31,7 @@ export function getClassModificationDecorator(
 
 	return function (...decoratorArgs): ClassDecorator {
 		return function (target) {
-			// save a reference to the original constructor
+
 			let originalConstructor = target;
 
 			// the new constructor behaviour
@@ -48,16 +48,11 @@ export function getClassModificationDecorator(
 
 			// Required so the 'instanceof' operator will work:
 			f.prototype = originalConstructor.prototype;
-
-			// return new constructor
 			return f;
 
 
-			// a utility function to generate instances of a class
 			function construct(constructor, args) {
 				const c: any = function () {
-					//	return constructor.apply(this, args);
-
 					return new constructor(...args);
 				};
 				c.prototype = constructor.prototype;

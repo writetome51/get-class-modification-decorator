@@ -1,11 +1,10 @@
-# getClassModificationDecorator(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifyInstance: (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance, decoratorArgs: any[]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) => void<br>) : @Decorator
+# getClassModificationDecorator(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifyInstance: (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance, decoratorArgs: any[]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) => void<br>): (...decoratorArgs) => ClassDecorator
 
-Returns a TypeScript class decorator. You set the behavior of the decorator  
-by passing the callback `modifyInstance()`. The decorator creates a new  
-constructor for the class being decorated.  The new constructor first calls  
-the original constructor, then the class instance is passed into `modifyInstance()`,  
-where you manipulate it however you want.  (The prototype chain is kept intact,  
-and the `instanceof` operator will still work.)
+Returns a TypeScript class decorator. You set the decorator behavior with the  
+callback `modifyInstance()`. The decorator creates a new constructor for the class  
+being decorated.  The new constructor first calls the original, then the class  
+instance is passed into `modifyInstance()`, where you manipulate it however you  
+want.  (The prototype chain is kept intact, and the `instanceof` operator will still work.)
 
 
 ## Examples
@@ -80,10 +79,6 @@ CEO {
   wife: 'radioactive' 
 }
 **************/
-
-// Remember when combining decorators:  the class constructor is called once
-// for every decorator attached to the class.  So in the above example it 
-// will be called twice.
 ```
 
 ## Installation

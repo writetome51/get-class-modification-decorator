@@ -25,7 +25,6 @@ console.log(subordinate.name); // 'subordinate employee'
 export function getClassModificationDecorator(modifyInstance) {
     return function (...decoratorArgs) {
         return function (target) {
-            // save a reference to the original constructor
             let originalConstructor = target;
             // the new constructor behaviour
             const f = function (...args) {
@@ -38,12 +37,9 @@ export function getClassModificationDecorator(modifyInstance) {
             };
             // Required so the 'instanceof' operator will work:
             f.prototype = originalConstructor.prototype;
-            // return new constructor
             return f;
-            // a utility function to generate instances of a class
             function construct(constructor, args) {
                 const c = function () {
-                    //	return constructor.apply(this, args);
                     return new constructor(...args);
                 };
                 c.prototype = constructor.prototype;

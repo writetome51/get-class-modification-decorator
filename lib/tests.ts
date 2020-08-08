@@ -2,7 +2,7 @@ import { getClassModificationDecorator } from './index';
 import { modifyObject } from '@writetome51/modify-object';
 
 
-export const attach_prefix: (arg) => Function = getClassModificationDecorator(
+export const attach_prefix = getClassModificationDecorator(
 	(instance: Associate, decoratorArgs: [string]) => {
 		let prefix = decoratorArgs[0];
 		instance.name = prefix + ' ' + instance.name;
@@ -11,7 +11,7 @@ export const attach_prefix: (arg) => Function = getClassModificationDecorator(
 
 
 export class Associate {
-	name = 'associate';
+	name = '';
 
 	constructor(public company) {
 		this.name = 'worker';
@@ -21,12 +21,20 @@ export class Associate {
 
 @attach_prefix('snobby')
 export class Employee extends Associate {
+	constructor() {
+		super('Apple');
+		console.log('company is: ', this.company);
+	}
 }
 
 
-console.log('instantiating Employee');
-let employee = new Employee('IBM');
-console.log(employee);
+let employee = new Employee();
+if (employee.company === 'Apple' && employee.name === 'snobby worker') console.log('test 1 passed');
+else console.log('test 1 FAILED');
+
+if (employee instanceof Associate) console.log('test 2 passed');
+else console.log('test 2 FAILED');
+
 
 export const add_properties = getClassModificationDecorator(
 	(instance, decoratorArgs: [object]) => {
@@ -42,37 +50,30 @@ export class Boss extends Employee {
 }
 
 
-console.log('instantiating Boss');
-let boss = new Boss('Apple');
-console.log(boss);
-
-
-// the constructor is called once for every decorator added, so here
-// it will be called twice:
 @attach_prefix('angry')
-@add_properties({age: 60, income: 600000, wife: 'radioactive'})
+@add_properties({wife: 'radioactive'})
 export class CEO extends Boss {
 }
-
 console.log('instantiating CEO');
-let ceo = new CEO('Amazon');
-
-console.log(ceo);
-console.log(ceo instanceof Associate);
-console.log(ceo instanceof CEO);
+let c = new CEO();
 
 
 @attach_prefix('greedy')
 export class Mogul extends CEO {
-	constructor(company){
-		super(company);
-		console.log('company is: ', this.company);
-	}
 }
 
 
 console.log('instantiating Mogul');
-let mogul = new Mogul('Time Warner Cable');
-console.log(mogul instanceof CEO);
-console.log(mogul);
+let mogul = new Mogul();
+
+if (mogul.company === 'Apple' && mogul.name === 'greedy angry snobby worker'
+	&& mogul['hair'] === 'amazing' && mogul['age'] === 50 && mogul['wife'] === 'radioactive')
+	console.log('test 3 passed');
+else console.log('test 3 FAILED');
+
+if (mogul instanceof CEO) console.log('test 4 passed');
+else console.log('test 4 FAILED');
+
+if (mogul instanceof Associate) console.log('test 5 passed');
+else console.log('test 5 FAILED');
 

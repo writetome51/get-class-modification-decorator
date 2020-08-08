@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { getClassModificationDecorator } from './index';
+import { getClassModificationDecorator } from './index.js';
 import { modifyObject } from '@writetome51/modify-object';
 export const attach_prefix = getClassModificationDecorator((instance, decoratorArgs) => {
     let prefix = decoratorArgs[0];
@@ -13,19 +13,29 @@ export const attach_prefix = getClassModificationDecorator((instance, decoratorA
 export class Associate {
     constructor(company) {
         this.company = company;
-        this.name = 'associate';
+        this.name = '';
         this.name = 'worker';
     }
 }
 let Employee = class Employee extends Associate {
+    constructor() {
+        super('Apple');
+        console.log('company is: ', this.company);
+    }
 };
 Employee = __decorate([
     attach_prefix('snobby')
 ], Employee);
 export { Employee };
-console.log('instantiating Employee');
-let employee = new Employee('IBM');
-console.log(employee);
+let employee = new Employee();
+if (employee.company === 'Apple' && employee.name === 'snobby worker')
+    console.log('test 1 passed');
+else
+    console.log('test 1 FAILED');
+if (employee instanceof Associate)
+    console.log('test 2 passed');
+else
+    console.log('test 2 FAILED');
 export const add_properties = getClassModificationDecorator((instance, decoratorArgs) => {
     let newProperties = decoratorArgs[0];
     modifyObject(instance, newProperties);
@@ -40,34 +50,33 @@ Boss = __decorate([
     add_properties({ hair: 'amazing', age: 50, income: 200000, wife: 'hot' })
 ], Boss);
 export { Boss };
-console.log('instantiating Boss');
-let boss = new Boss('Apple');
-console.log(boss);
-// the constructor is called once for every decorator added, so here
-// it will be called twice:
 let CEO = class CEO extends Boss {
 };
 CEO = __decorate([
     attach_prefix('angry'),
-    add_properties({ age: 60, income: 600000, wife: 'radioactive' })
+    add_properties({ wife: 'radioactive' })
 ], CEO);
 export { CEO };
 console.log('instantiating CEO');
-let ceo = new CEO('Amazon');
-console.log(ceo);
-console.log(ceo instanceof Associate);
-console.log(ceo instanceof CEO);
+let c = new CEO();
 let Mogul = class Mogul extends CEO {
-    constructor(company) {
-        super(company);
-        console.log('company is: ', this.company);
-    }
 };
 Mogul = __decorate([
     attach_prefix('greedy')
 ], Mogul);
 export { Mogul };
 console.log('instantiating Mogul');
-let mogul = new Mogul('Time Warner Cable');
-console.log(mogul instanceof CEO);
-console.log(mogul);
+let mogul = new Mogul();
+if (mogul.company === 'Apple' && mogul.name === 'greedy angry snobby worker'
+    && mogul['hair'] === 'amazing' && mogul['age'] === 50 && mogul['wife'] === 'radioactive')
+    console.log('test 3 passed');
+else
+    console.log('test 3 FAILED');
+if (mogul instanceof CEO)
+    console.log('test 4 passed');
+else
+    console.log('test 4 FAILED');
+if (mogul instanceof Associate)
+    console.log('test 5 passed');
+else
+    console.log('test 5 FAILED');
