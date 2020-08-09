@@ -2,7 +2,7 @@ import { getClassModificationDecorator } from './index';
 import { modifyObject } from '@writetome51/modify-object';
 
 
-export const attach_prefix = getClassModificationDecorator(
+export const attach_prefix: (...decoratorArgs: any[]) => ClassDecorator = getClassModificationDecorator(
 	(instance: Associate, decoratorArgs: [string]) => {
 		let prefix = decoratorArgs[0];
 		instance.name = prefix + ' ' + instance.name;
@@ -36,7 +36,7 @@ if (employee instanceof Associate) console.log('test 2 passed');
 else console.log('test 2 FAILED');
 
 
-export const add_properties = getClassModificationDecorator(
+export const add_properties: (...decoratorArgs: any[]) => ClassDecorator = getClassModificationDecorator(
 	(instance, decoratorArgs: [object]) => {
 		let newProperties = decoratorArgs[0];
 		modifyObject(instance, newProperties);
@@ -76,4 +76,3 @@ else console.log('test 4 FAILED');
 
 if (mogul instanceof Associate) console.log('test 5 passed');
 else console.log('test 5 FAILED');
-

@@ -1,9 +1,12 @@
-import { modifyObject } from '@writetome51/modify-object';
+import {modifyObject} from '@writetome51/modify-object';
+
+
 /*********************
-Returns a TypeScript ClassDecorator factory.
+ Returns a TypeScript ClassDecorator factory.
  The decorator creates a new constructor for the class being decorated.
- Inside it, the original constructor is called, then the class instance is passed
- into param `modifyInstance()`, where you manipulate it however you want.
+ The new constructor first calls the original, then the class instance
+ is passed into modifyInstance(), where you manipulate it however you want.
+ (The prototype chain is kept intact, and the instanceof operator will still work.)
 EXAMPLE:
 
 // Create a decorator:
@@ -22,29 +25,35 @@ export class Employee {
 let subordinate = new Employee();
 console.log(subordinate.name); // 'subordinate employee'
  *********************/
+
 export function getClassModificationDecorator(modifyInstance) {
-    return function (...decoratorArgs) {
-        return function (target) {
-            let originalConstructor = target;
-            // the new constructor behaviour
-            const f = function (...args) {
-                let instance = construct(originalConstructor, args);
-                modifyInstance(instance, decoratorArgs);
-                // Required so the returned instance's prototype will be its immediate parent.
-                let instanceCopy = Object.create(originalConstructor.prototype);
-                modifyObject(instanceCopy, instance);
-                return instanceCopy;
-            };
-            // Required so the 'instanceof' operator will work:
-            f.prototype = originalConstructor.prototype;
-            return f;
-            function construct(constructor, args) {
-                const c = function () {
-                    return new constructor(...args);
-                };
-                c.prototype = constructor.prototype;
-                return new c(...args);
-            }
-        };
-    };
+	return function(...decoratorArgs) {
+
+		return function(target) {
+			let originalConstructor = target;
+
+			// the new constructor behaviour
+			const f = function(...args) {
+				let instance = construct(originalConstructor, args);
+				modifyInstance(instance, decoratorArgs);
+
+				// Required so the returned instance's prototype will be its immediate parent.
+				let instanceCopy = Object.create(originalConstructor.prototype);
+				modifyObject(instanceCopy, instance);
+				return instanceCopy;
+			};
+			// Required so the 'instanceof' operator will work:
+			f.prototype = originalConstructor.prototype;
+			return f;
+
+
+			function construct(constructor, args) {
+				const c = function() {
+					return new constructor(...args);
+				};
+				c.prototype = constructor.prototype;
+				return new c(...args);
+			}
+		};
+	};
 }

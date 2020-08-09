@@ -2,10 +2,11 @@ import { modifyObject } from '@writetome51/modify-object';
 
 
 /*********************
-Returns a TypeScript ClassDecorator factory.
+ Returns a TypeScript ClassDecorator factory.
  The decorator creates a new constructor for the class being decorated.
- Inside it, the original constructor is called, then the class instance is passed
- into param `modifyInstance()`, where you manipulate it however you want.
+ The new constructor first calls the original, then the class instance
+ is passed into modifyInstance(), where you manipulate it however you want.
+ (The prototype chain is kept intact, and the instanceof operator will still work.)
 EXAMPLE:
 
 // Create a decorator:
